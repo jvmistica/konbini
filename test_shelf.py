@@ -32,11 +32,11 @@ class TestShelf(unittest.TestCase):
 
     def test_add_item(self):
         shelf = Shelf('Shelf #1', 'small')
-        item1 = Item('pudding', 20, 1.99)
-        item2 = Item('ramen', 50, 0.99)
-        item3 = Item('soda', 40, 1.50)
-        item4 = Item('chocolate', 50, 1.99)
-        item5 = Item('cake', 20, 2.30)
+        item1 = Item('pudding', 20, 1.99, False)
+        item2 = Item('ramen', 50, 0.99, False)
+        item3 = Item('soda', 40, 1.50, False)
+        item4 = Item('chocolate', 50, 1.99, False)
+        item5 = Item('cake', 20, 2.30, False)
 
         result = shelf.add_item(item1)
         self.assertEqual(result, 'Item has been added to the shelf')
@@ -65,7 +65,7 @@ class TestShelf(unittest.TestCase):
         result = shelf.details()
         self.assertEqual(result, 'Name: Shelf #1\nSlots: 4\nItems: []')
 
-        item = Item('pudding', 20, 1.99)
+        item = Item('pudding', 20, 1.99, False)
         add_result = shelf.add_item(item)
         result = shelf.details()
         self.assertEqual(add_result, 'Item has been added to the shelf')
@@ -83,7 +83,7 @@ class TestShelf(unittest.TestCase):
 
     def test_replace(self):
         shelf = Shelf('Shelf #1', 'small')
-        item = Item('pudding', 20, 1.99)
+        item = Item('pudding', 20, 1.99, False)
         add_result = shelf.add_item(item)
         self.assertEqual(add_result, 'Item has been added to the shelf')
         
@@ -91,7 +91,7 @@ class TestShelf(unittest.TestCase):
         self.assertEqual(result, 'Name: Shelf #1\nSlots: 3\nItems: [{\'name\': \'pudding\', \'count\': 20, \'price\': 1.99}]')
 
         # valid replace
-        new_item = Item('chocolate', 25, 1.59)
+        new_item = Item('chocolate', 25, 1.59, False)
         replace_result = shelf.replace(item, new_item)
         self.assertEqual(replace_result, f'Discarded: {item.name}\nAdded: {new_item.name}')
 
@@ -99,7 +99,7 @@ class TestShelf(unittest.TestCase):
         self.assertEqual(result, 'Name: Shelf #1\nSlots: 3\nItems: [{\'name\': \'chocolate\', \'count\': 25, \'price\': 1.59}]')
 
         # invalid replace
-        new_item = Item('cake', 25, 1.59)
+        new_item = Item('cake', 25, 1.59, False)
         with self.assertRaises(ValueError):
             shelf.replace(item, new_item)
 
