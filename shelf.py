@@ -13,11 +13,11 @@ class Shelf:
 
     def add(self, item):
         if self.slots == 0:
-            return f'{self.name} cannot be added to the shelf, all slots are taken.'
+            return f'Item cannot be added to the shelf, all slots are taken.'
 
         self.items.append(item)
         self.slots -= 1
-        return f'{self.name} has been added to the shelf'
+        return f'Item has been added to the shelf'
 
     def remove(self):
         self.status = 'Inactive'
