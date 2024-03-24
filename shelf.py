@@ -1,11 +1,18 @@
 from item import Item
 
 class Shelf:
-    def __init__(self, name, slots):
+    sizes = {'small': 4, 'medium': 8, 'large': 12}
+
+    def __init__(self, name, size):
         self.name = name
-        self.slots = slots
         self.status = 'Active'
         self.items = []
+
+        if size in Shelf.sizes.keys():
+            self.size = size
+            self.slots = Shelf.sizes[size]
+        else:
+            raise ValueError('Invalid size. Valid sizes: small, medium, large')
 
     def details(self):
         item_list = [{'name': i.name, 'count': i.count, 'price': i.price} for i in self.items if len(self.items) > 0]
@@ -13,26 +20,19 @@ class Shelf:
 
     def add(self, item):
         if self.slots == 0:
-            return f'Item cannot be added to the shelf, all slots are taken.'
+            return 'Item cannot be added to the shelf, all slots are taken.'
 
         self.items.append(item)
         self.slots -= 1
-        return f'Item has been added to the shelf'
+        return 'Item has been added to the shelf'
 
     def remove(self):
         self.status = 'Inactive'
         return f'{self.name} has been removed from the display'
 
-
-# # example: add items to shelf
-# shelf = Shelf('Shelf #1', 4)
-# 
-# item1 = Item('Pudding', 50, 1.99)
-# item2 = Item('Ramen', 50, 0.99)
-# 
-# print(shelf.add(item1))
-# print(shelf.add(item1))
-# print(shelf.add(item2))
-# print(shelf.add(item2))
-# print(shelf.add(item2))
-# print(shelf.details())
+    def replace(self, current_item, new_item):
+        for n, item in enumerate(self.items):
+            if item == current_item:
+                self.items[n] = new_item
+                return f'Discarded: {current_item.name}\nAdded: {new_item.name}'
+        raise ValueError(f'Item \'{current_item.name}\' does not exist.')
