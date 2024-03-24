@@ -44,7 +44,7 @@ class Shelf:
 
     def replace(self, current_item, new_item):
         """
-        Removes an item from a shelf.
+        Replaces an item in a shelf.
         """
 
         for n, item in enumerate(self.items):
