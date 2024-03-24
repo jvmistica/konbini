@@ -36,7 +36,7 @@ class Shelf:
         """
 
         if self.slots == 0:
-            return 'Item cannot be added to the shelf, all slots are taken.'
+            return 'Item cannot be added to the shelf, all slots are taken'
 
         self.items.append(item)
         self.slots -= 1
@@ -51,4 +51,4 @@ class Shelf:
             if item == current_item:
                 self.items[n] = new_item
                 return f'Discarded: {current_item.name}\nAdded: {new_item.name}'
-        raise ValueError(f'Item \'{current_item.name}\' does not exist.')
+        raise ValueError(f'Item \'{current_item.name}\' does not exist')

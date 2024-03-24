@@ -51,7 +51,7 @@ class TestShelf(unittest.TestCase):
         self.assertEqual(result, 'Item has been added to the shelf')
 
         result = shelf.add_item(item5)
-        self.assertEqual(result, 'Item cannot be added to the shelf, all slots are taken.')
+        self.assertEqual(result, 'Item cannot be added to the shelf, all slots are taken')
 
         details = shelf.details()
         items = [{'name': 'pudding', 'count': 20, 'price': 1.99},
