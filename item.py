@@ -1,8 +1,8 @@
 class Item:
     def __init__(self, name, count, price):
         self.name = name
-	self.count = count
-	self.price = price
+        self.count = count
+        self.price = price
 
     def details(self):
         return f'Name: {self.name}\nCount: {self.count}\nPrice: {self.price}'
