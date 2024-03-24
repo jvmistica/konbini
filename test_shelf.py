@@ -30,7 +30,7 @@ class TestShelf(unittest.TestCase):
         with self.assertRaises(ValueError):
             Shelf('Shelf #2', 'extra-large')
 
-    def test_add(self):
+    def test_add_item(self):
         shelf = Shelf('Shelf #1', 'small')
         item1 = Item('pudding', 20, 1.99)
         item2 = Item('ramen', 50, 0.99)
@@ -38,19 +38,19 @@ class TestShelf(unittest.TestCase):
         item4 = Item('chocolate', 50, 1.99)
         item5 = Item('cake', 20, 2.30)
 
-        result = shelf.add(item1)
+        result = shelf.add_item(item1)
         self.assertEqual(result, 'Item has been added to the shelf')
 
-        result = shelf.add(item2)
+        result = shelf.add_item(item2)
         self.assertEqual(result, 'Item has been added to the shelf')
 
-        result = shelf.add(item3)
+        result = shelf.add_item(item3)
         self.assertEqual(result, 'Item has been added to the shelf')
 
-        result = shelf.add(item4)
+        result = shelf.add_item(item4)
         self.assertEqual(result, 'Item has been added to the shelf')
 
-        result = shelf.add(item5)
+        result = shelf.add_item(item5)
         self.assertEqual(result, 'Item cannot be added to the shelf, all slots are taken.')
 
         details = shelf.details()
@@ -66,7 +66,7 @@ class TestShelf(unittest.TestCase):
         self.assertEqual(result, 'Name: Shelf #1\nSlots: 4\nItems: []')
 
         item = Item('pudding', 20, 1.99)
-        add_result = shelf.add(item)
+        add_result = shelf.add_item(item)
         result = shelf.details()
         self.assertEqual(add_result, 'Item has been added to the shelf')
         self.assertEqual(result, 'Name: Shelf #1\nSlots: 3\nItems: [{\'name\': \'pudding\', \'count\': 20, \'price\': 1.99}]')
@@ -84,7 +84,7 @@ class TestShelf(unittest.TestCase):
     def test_replace(self):
         shelf = Shelf('Shelf #1', 'small')
         item = Item('pudding', 20, 1.99)
-        add_result = shelf.add(item)
+        add_result = shelf.add_item(item)
         self.assertEqual(add_result, 'Item has been added to the shelf')
         
         result = shelf.details()

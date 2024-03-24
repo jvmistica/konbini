@@ -15,10 +15,26 @@ class Shelf:
             raise ValueError('Invalid size. Valid sizes: small, medium, large')
 
     def details(self):
+        """
+        Returns the details of the shelf.
+        """
+
         item_list = [{'name': i.name, 'count': i.count, 'price': i.price} for i in self.items if len(self.items) > 0]
         return f'Name: {self.name}\nSlots: {self.slots}\nItems: {item_list}'
 
-    def add(self, item):
+    def remove(self):
+        """
+        Removes a shelf.
+        """
+
+        self.status = 'Inactive'
+        return f'{self.name} has been removed from the display'
+
+    def add_item(self, item):
+        """
+        Adds an item to a shelf.
+        """
+
         if self.slots == 0:
             return 'Item cannot be added to the shelf, all slots are taken.'
 
@@ -26,11 +42,11 @@ class Shelf:
         self.slots -= 1
         return 'Item has been added to the shelf'
 
-    def remove(self):
-        self.status = 'Inactive'
-        return f'{self.name} has been removed from the display'
-
     def replace(self, current_item, new_item):
+        """
+        Removes an item from a shelf.
+        """
+
         for n, item in enumerate(self.items):
             if item == current_item:
                 self.items[n] = new_item
