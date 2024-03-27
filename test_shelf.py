@@ -98,7 +98,7 @@ class TestShelf(unittest.TestCase):
         result = shelf.details()
         self.assertEqual(result, 'Name: Shelf #1\nSlots: 3\nItems: [{\'name\': \'chocolate\', \'count\': 25, \'price\': 1.59}]')
 
-        # invalid replace
+        # invalid replace: item being replaced does not exist
         new_item = Item('cake', 25, 1.59, False)
         with self.assertRaises(ValueError):
             shelf.replace(item, new_item)

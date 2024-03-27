@@ -49,11 +49,11 @@ class Counter:
             return f'{item.name} is not a type of item that can be added to a counter'
 
         if self.slots == 0:
-            return f'{item.name} cannot be added to the counter, all slots are taken'
+            return f'Item cannot be added to the counter, all slots are taken'
 
         self.items.append(item)
         self.slots -= 1
-        return f'{item.name} has been added to the counter'
+        return f'Item has been added to the counter'
 
     def replace(self, current_item, new_item):
         """
