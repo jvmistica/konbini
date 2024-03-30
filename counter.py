@@ -55,7 +55,7 @@ class Counter:
         self.slots -= 1
         return f'Item has been added to the counter'
 
-    def replace(self, current_item, new_item):
+    def replace_item(self, current_item, new_item):
         """
         Replaces an item in a counter.
         """
@@ -68,3 +68,13 @@ class Counter:
                 self.items[n] = new_item
                 return f'Discarded: {current_item.name}\nAdded: {new_item.name}'
         raise ValueError(f'Item \'{current_item.name}\' does not exist')
+
+    def remove_item(self, item):
+        """
+        Removes an item from a counter.
+        """
+
+        # TODO: add check if removal is successful
+        self.items.remove(item)
+        self.slots += 1
+        return f'Item "{item.name}" has been removed from the counter'

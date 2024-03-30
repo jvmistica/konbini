@@ -35,6 +35,9 @@ class Shelf:
         Adds an item to a shelf.
         """
 
+        if item.counter:
+            return f'{item.name} is not a type of item that can be added to a shelf'
+
         if self.slots == 0:
             return 'Item cannot be added to the shelf, all slots are taken'
 
@@ -42,7 +45,7 @@ class Shelf:
         self.slots -= 1
         return 'Item has been added to the shelf'
 
-    def replace(self, current_item, new_item):
+    def replace_item(self, current_item, new_item):
         """
         Replaces an item in a shelf.
         """
@@ -52,3 +55,13 @@ class Shelf:
                 self.items[n] = new_item
                 return f'Discarded: {current_item.name}\nAdded: {new_item.name}'
         raise ValueError(f'Item \'{current_item.name}\' does not exist')
+
+    def remove_item(self, item):
+        """
+        Removes an item from a shelf.
+        """
+
+        # TODO: add check if removal is successful
+        self.items.remove(item)
+        self.slots += 1
+        return f'Item "{item.name}" has been removed from the shelf'
