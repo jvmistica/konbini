@@ -1,11 +1,14 @@
+import json
+import uuid
 from item import Item
 
 class Shelf:
     sizes = {'small': 4, 'medium': 8, 'large': 12}
 
     def __init__(self, name, size):
+        self.id = str(uuid.uuid4())
         self.name = name
-        self.status = 'Active'
+        self.status = 'active'
         self.items = []
 
         if size in Shelf.sizes.keys():
@@ -19,15 +22,23 @@ class Shelf:
         Returns the details of the shelf.
         """
 
-        item_list = [{'name': i.name, 'count': i.count, 'price': i.price} for i in self.items if len(self.items) > 0]
-        return f'Name: {self.name}\nSlots: {self.slots}\nItems: {item_list}'
+        item_list = [{'id': i.id, 'name': i.name, 'count': i.count, 'price': i.price, 'counter': i.counter} for i in self.items if len(self.items) > 0]
+        details = {
+            'id': self.id,
+            'name': self.name,
+            'status': self.status,
+            'size': self.size,
+            'slots': self.slots,
+            'items': item_list
+        }
+        return json.dumps(details)
 
     def remove(self):
         """
         Removes a shelf.
         """
 
-        self.status = 'Inactive'
+        self.status = 'inactive'
         return f'{self.name} has been removed from the display'
 
     def add_item(self, item):

@@ -1,5 +1,9 @@
+import json
+import uuid
+
 class Item:
     def __init__(self, name, count, price, counter):
+        self.id = str(uuid.uuid4())
         self.name = name
         self.count = count
         self.price = price
@@ -10,7 +14,14 @@ class Item:
         Returns the details of the item.
         """
 
-        return f'Name: {self.name}\nCount: {self.count}\nPrice: {self.price}'
+        details = {
+            'id': self.id,
+            'name': self.name,
+            'count': self.count,
+            'price': self.price,
+            'counter': self.counter
+        }
+        return json.dumps(details)
 
     def sell(self, count):
         """

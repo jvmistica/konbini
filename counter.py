@@ -1,13 +1,14 @@
+import json
+import uuid
 from item import Item
 
-# TODO:
-# Counter and shelf are very similar, perhaps define a class and have these two act as subclasses
 class Counter:
     slots = 8
 
     def __init__(self, name):
+        self.id = str(uuid.uuid4())
         self.name = name
-        self.status = 'Active'
+        self.status = 'active'
         self.slots = Counter.slots
         self.items = []
         self.employee = ''
@@ -17,15 +18,22 @@ class Counter:
         Returns the details of a counter.
         """
 
-        item_list = [{'name': i.name, 'count': i.count, 'price': i.price} for i in self.items if len(self.items) > 0]
-        return f'Name: {self.name}\nSlots: {self.slots}\nItems: {item_list}'
+        item_list = [{'id': i.id, 'name': i.name, 'count': i.count, 'price': i.price, 'counter': i.counter} for i in self.items if len(self.items) > 0]
+        details = {
+            'id': self.id,
+            'name': self.name,
+            'status': self.status,
+            'slots': self.slots,
+            'items': item_list
+        }
+        return json.dumps(details)
 
     def remove(self):
         """
         Removes a counter.
         """
 
-        self.status = 'Inactive'
+        self.status = 'inactive'
         return f'{self.name} has been removed from the display'
 
     def assign_employee(self, employee):

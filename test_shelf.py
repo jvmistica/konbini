@@ -1,3 +1,4 @@
+import json
 import unittest
 from shelf import Shelf
 from item import Item
@@ -33,24 +34,33 @@ class TestShelf(unittest.TestCase):
 
     def test_details(self):
         shelf = Shelf('Shelf #1', 'small')
-        result = shelf.details()
-        self.assertEqual(result, 'Name: Shelf #1\nSlots: 4\nItems: []')
+        result = json.loads(shelf.details())
+        self.assertEqual(result['name'], 'Shelf #1')
+        self.assertEqual(result['slots'], 4)
+        self.assertEqual(len(result['items']), 0)
 
         item = Item('pudding', 20, 1.99, False)
         add_result = shelf.add_item(item)
-        result = shelf.details()
         self.assertEqual(add_result, 'Item has been added to the shelf')
-        self.assertEqual(result, 'Name: Shelf #1\nSlots: 3\nItems: [{\'name\': \'pudding\', \'count\': 20, \'price\': 1.99}]')
+
+        result = json.loads(shelf.details())
+        self.assertEqual(result['name'], 'Shelf #1')
+        self.assertEqual(result['slots'], 3)
+        self.assertEqual(len(result['items']), 1)
+        self.assertEqual(result['items'][0]['name'], 'pudding')
+        self.assertEqual(result['items'][0]['count'], 20)
+        self.assertEqual(result['items'][0]['price'], 1.99)
+        self.assertEqual(result['items'][0]['counter'], False)
 
     def test_remove(self):
         shelf = Shelf('Shelf #1', 'small')
-        result = shelf.details()
-        self.assertEqual(result, 'Name: Shelf #1\nSlots: 4\nItems: []')
-        self.assertEqual(shelf.status, 'Active')
+        result = json.loads(shelf.details())
+        self.assertEqual(result['name'], 'Shelf #1')
+        self.assertEqual(result['status'], 'active')
 
         remove_result = shelf.remove()
         self.assertEqual(remove_result, 'Shelf #1 has been removed from the display')
-        self.assertEqual(shelf.status, 'Inactive')
+        self.assertEqual(shelf.status, 'inactive')
 
     def test_add_item(self):
         shelf = Shelf('Shelf #1', 'small')
@@ -76,24 +86,33 @@ class TestShelf(unittest.TestCase):
         add_result = shelf.add_item(item)
         self.assertEqual(add_result, 'Item has been added to the shelf')
         
-        result = shelf.details()
-        self.assertEqual(result, 'Name: Shelf #1\nSlots: 3\nItems: [{\'name\': \'pudding\', \'count\': 20, \'price\': 1.99}]')
+        result = json.loads(shelf.details())
+        self.assertEqual(result['name'], 'Shelf #1')
+        self.assertEqual(result['slots'], 3)
+        self.assertEqual(len(result['items']), 1)
+        self.assertEqual(result['items'][0]['name'], 'pudding')
 
         # valid replace
         new_item = Item('chocolate', 25, 1.59, False)
         replace_result = shelf.replace_item(item, new_item)
         self.assertEqual(replace_result, f'Discarded: {item.name}\nAdded: {new_item.name}')
 
-        result = shelf.details()
-        self.assertEqual(result, 'Name: Shelf #1\nSlots: 3\nItems: [{\'name\': \'chocolate\', \'count\': 25, \'price\': 1.59}]')
+        result = json.loads(shelf.details())
+        self.assertEqual(result['name'], 'Shelf #1')
+        self.assertEqual(result['slots'], 3)
+        self.assertEqual(len(result['items']), 1)
+        self.assertEqual(result['items'][0]['name'], 'chocolate')
 
         # invalid replace: item being replaced does not exist
         new_item = Item('cake', 25, 1.59, False)
         with self.assertRaises(ValueError):
             shelf.replace_item(item, new_item)
 
-        result = shelf.details()
-        self.assertEqual(result, 'Name: Shelf #1\nSlots: 3\nItems: [{\'name\': \'chocolate\', \'count\': 25, \'price\': 1.59}]')
+        result = json.loads(shelf.details())
+        self.assertEqual(result['name'], 'Shelf #1')
+        self.assertEqual(result['slots'], 3)
+        self.assertEqual(len(result['items']), 1)
+        self.assertEqual(result['items'][0]['name'], 'chocolate')
 
     def test_remove_item(self):
         shelf = Shelf('Shelf #1', 'small')
@@ -101,14 +120,18 @@ class TestShelf(unittest.TestCase):
         add_result = shelf.add_item(item)
         self.assertEqual(add_result, 'Item has been added to the shelf')
         
-        result = shelf.details()
-        self.assertEqual(result, 'Name: Shelf #1\nSlots: 3\nItems: [{\'name\': \'pudding\', \'count\': 20, \'price\': 1.99}]')
+        result = json.loads(shelf.details())
+        self.assertEqual(result['name'], 'Shelf #1')
+        self.assertEqual(result['slots'], 3)
+        self.assertEqual(result['items'][0]['name'], 'pudding')
 
         remove_result = shelf.remove_item(item)
         self.assertEqual(remove_result, 'Item "pudding" has been removed from the shelf')
         
-        result = shelf.details()
-        self.assertEqual(result, 'Name: Shelf #1\nSlots: 4\nItems: []')
+        result = json.loads(shelf.details())
+        self.assertEqual(result['name'], 'Shelf #1')
+        self.assertEqual(result['slots'], 4)
+        self.assertEqual(len(result['items']), 0)
 
 if __name__ == '__main__':
     unittest.main()

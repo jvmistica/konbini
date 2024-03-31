@@ -1,3 +1,4 @@
+import json
 import unittest
 from counter import Counter
 from item import Item
@@ -16,24 +17,35 @@ class TestCounter(unittest.TestCase):
 
     def test_details(self):
         counter = Counter('Counter #1')
-        result = counter.details()
-        self.assertEqual(result, 'Name: Counter #1\nSlots: 8\nItems: []')
+        result = json.loads(counter.details())
+        self.assertEqual(result['name'], 'Counter #1')
+        self.assertEqual(result['slots'], 8)
+        self.assertEqual(len(result['items']), 0)
 
-        item = Item('Item 1', 20, 1.99, True)
+        item = Item('chocolate kariman', 20, 1.99, True)
         add_result = counter.add_item(item)
-        result = counter.details()
         self.assertEqual(add_result, 'Item has been added to the counter')
-        self.assertEqual(result, 'Name: Counter #1\nSlots: 7\nItems: [{\'name\': \'Item 1\', \'count\': 20, \'price\': 1.99}]')
+
+        result = json.loads(counter.details())
+        self.assertEqual(result['name'], 'Counter #1')
+        self.assertEqual(result['slots'], 7)
+        self.assertEqual(len(result['items']), 1)
+        self.assertEqual(result['items'][0]['name'], 'chocolate kariman')
+        self.assertEqual(result['items'][0]['count'], 20)
+        self.assertEqual(result['items'][0]['price'], 1.99)
+        self.assertEqual(result['items'][0]['counter'], True)
 
     def test_remove(self):
         counter = Counter('Counter #1')
-        result = counter.details()
-        self.assertEqual(result, 'Name: Counter #1\nSlots: 8\nItems: []')
-        self.assertEqual(counter.status, 'Active')
+        result = json.loads(counter.details())
+        self.assertEqual(result['name'], 'Counter #1')
+        self.assertEqual(result['slots'], 8)
+        self.assertEqual(result['status'], 'active')
+        self.assertEqual(len(result['items']), 0)
 
         remove_result = counter.remove()
         self.assertEqual(remove_result, 'Counter #1 has been removed from the display')
-        self.assertEqual(counter.status, 'Inactive')
+        self.assertEqual(counter.status, 'inactive')
 
     def test_assign_employee(self):
         # assign employee
@@ -68,43 +80,57 @@ class TestCounter(unittest.TestCase):
 
     def test_replace_item(self):
         counter = Counter('Counter #1')
-        item = Item('Item 1', 20, 1.99, True)
+        item = Item('chocolate kariman', 20, 1.99, True)
         add_result = counter.add_item(item)
         self.assertEqual(add_result, 'Item has been added to the counter')
         
-        result = counter.details()
-        self.assertEqual(result, 'Name: Counter #1\nSlots: 7\nItems: [{\'name\': \'Item 1\', \'count\': 20, \'price\': 1.99}]')
+        result = json.loads(counter.details())
+        self.assertEqual(result['name'], 'Counter #1')
+        self.assertEqual(result['slots'], 7)
+        self.assertEqual(len(result['items']), 1)
+        self.assertEqual(result['items'][0]['name'], 'chocolate kariman')
 
         # valid replace
-        new_item = Item('Item 2', 25, 1.59, True)
+        new_item = Item('dumplings', 25, 1.59, True)
         replace_result = counter.replace_item(item, new_item)
         self.assertEqual(replace_result, f'Discarded: {item.name}\nAdded: {new_item.name}')
 
-        result = counter.details()
-        self.assertEqual(result, 'Name: Counter #1\nSlots: 7\nItems: [{\'name\': \'Item 2\', \'count\': 25, \'price\': 1.59}]')
+        result = json.loads(counter.details())
+        self.assertEqual(result['name'], 'Counter #1')
+        self.assertEqual(result['slots'], 7)
+        self.assertEqual(len(result['items']), 1)
+        self.assertEqual(result['items'][0]['name'], 'dumplings')
 
         # invalid replace: item being replaced does not exist
-        new_item = Item('Item 3', 25, 1.59, True)
+        new_item = Item('siopao', 25, 1.59, True)
         with self.assertRaises(ValueError):
             counter.replace_item(item, new_item)
 
-        result = counter.details()
-        self.assertEqual(result, 'Name: Counter #1\nSlots: 7\nItems: [{\'name\': \'Item 2\', \'count\': 25, \'price\': 1.59}]')
+        result = json.loads(counter.details())
+        self.assertEqual(result['name'], 'Counter #1')
+        self.assertEqual(result['slots'], 7)
+        self.assertEqual(len(result['items']), 1)
+        self.assertEqual(result['items'][0]['name'], 'dumplings')
 
     def test_remove_item(self):
         counter = Counter('Counter #1')
-        item = Item('Item 1', 20, 1.99, True)
+        item = Item('chocolate kariman', 20, 1.99, True)
         add_result = counter.add_item(item)
         self.assertEqual(add_result, 'Item has been added to the counter')
         
-        result = counter.details()
-        self.assertEqual(result, 'Name: Counter #1\nSlots: 7\nItems: [{\'name\': \'Item 1\', \'count\': 20, \'price\': 1.99}]')
+        result = json.loads(counter.details())
+        self.assertEqual(result['name'], 'Counter #1')
+        self.assertEqual(result['slots'], 7)
+        self.assertEqual(len(result['items']), 1)
+        self.assertEqual(result['items'][0]['name'], 'chocolate kariman')
 
         remove_result = counter.remove_item(item)
-        self.assertEqual(remove_result, 'Item "Item 1" has been removed from the counter')
+        self.assertEqual(remove_result, 'Item "chocolate kariman" has been removed from the counter')
         
-        result = counter.details()
-        self.assertEqual(result, 'Name: Counter #1\nSlots: 8\nItems: []')
+        result = json.loads(counter.details())
+        self.assertEqual(result['name'], 'Counter #1')
+        self.assertEqual(result['slots'], 8)
+        self.assertEqual(len(result['items']), 0)
 
 if __name__ == '__main__':
     unittest.main()
