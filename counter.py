@@ -69,7 +69,7 @@ class Counter:
         if self.slots == 0:
             return {
                 'error': True,
-                'error_message': f'Item cannot be added to the counter, all slots are taken'
+                'error_message': 'Item cannot be added to the counter, all slots are taken'
             }
 
         self.items.append(item)
