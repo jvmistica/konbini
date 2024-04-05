@@ -1,4 +1,3 @@
-import json
 import uuid
 from employee import Employee
 from item import Item
@@ -14,76 +13,110 @@ class Counter:
         self.items = []
         self.employee = ''
 
-    def details(self) -> str:
+    def details(self) -> dict:
         """
         Returns the details of a counter.
         """
 
         item_list = [{'id': i.id, 'name': i.name, 'count': i.count, 'price': i.price, 'counter': i.counter} for i in self.items if len(self.items) > 0]
-        details = {
+        return {
             'id': self.id,
             'name': self.name,
             'status': self.status,
             'slots': self.slots,
             'items': item_list
         }
-        return json.dumps(details)
 
-    def remove(self) -> str:
+    def remove(self) -> dict:
         """
         Removes a counter.
         """
 
-        self.status = 'inactive'
-        return f'{self.name} has been removed from the display'
+        if self.status == 'inactive':
+            return {
+                'error': True,
+                'error_message': 'Counter is already inactive'
+            }
 
-    def assign_employee(self, employee: Employee) -> str:
+        self.status = 'inactive'
+        return {
+            'error': False,
+            'error_message': None
+        }
+
+    def assign_employee(self, employee: Employee) -> dict:
         """
         Assigns an employee to a counter.
         """
 
         self.employee = employee
-        if employee == '':
-            return f'Counter {self.name} has no employee assigned'
-        
-        return f'{employee.name} has been assigned to counter {self.name}'
+        return {
+            'error': False,
+            'error_message': None
+        }
 
-
-    def add_item(self, item: Item) -> str:
+    def add_item(self, item: Item) -> dict:
         """
         Adds an item to a counter.
         """
 
         if not item.counter:
-            return f'{item.name} is not a type of item that can be added to a counter'
+            return {
+                'error': True,
+                'error_message': f'{item.name} is not a type of item that can be added to a counter'
+            }
 
         if self.slots == 0:
-            return f'Item cannot be added to the counter, all slots are taken'
+            return {
+                'error': True,
+                'error_message': 'Item cannot be added to the counter, all slots are taken'
+            }
 
         self.items.append(item)
         self.slots -= 1
-        return f'Item has been added to the counter'
+        return {
+            'error': False,
+            'error_message': None
+        }
 
-    def replace_item(self, current_item: Item, new_item: Item) -> str:
+    def replace_item(self, current_item: Item, new_item: Item) -> dict:
         """
         Replaces an item in a counter.
         """
 
         if not new_item.counter:
-            return f'{new_item.name} is not a type of item that can be added to a counter'
+            return {
+                'error': True,
+                'error_message': f'{new_item.name} is not a type of item that can be added to a counter'
+            }
 
         for n, item in enumerate(self.items):
             if item == current_item:
                 self.items[n] = new_item
-                return f'Discarded: {current_item.name}\nAdded: {new_item.name}'
-        raise ValueError(f'Item \'{current_item.name}\' does not exist')
+                return {
+                    'error': False,
+                    'error_message': None
+                }
+        return {
+            'error': True,
+            'error_message': f'Item \'{current_item.name}\' does not exist'
+        }
 
-    def remove_item(self, item: Item) -> str:
+    def remove_item(self, item: Item) -> dict:
         """
         Removes an item from a counter.
         """
 
-        # TODO: add check if removal is successful
-        self.items.remove(item)
+        try:
+            self.items.remove(item)
+        except ValueError:
+            return {
+                'error': True,
+                'error_message': f'Item \'{item.name}\' does not exist'
+            }
+
         self.slots += 1
-        return f'Item "{item.name}" has been removed from the counter'
+        return {
+            'error': False,
+            'error_message': None
+        }
