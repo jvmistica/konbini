@@ -1,4 +1,3 @@
-import json
 import unittest
 from employee import Employee
 
@@ -15,7 +14,7 @@ class TestEmployee(unittest.TestCase):
 
     def test_details(self):
         employee = Employee('John Wick', 50000, 120, 100)
-        result = json.loads(employee.details())
+        result = employee.details()
         self.assertIsNotNone(result['id'])
         self.assertEqual(result['name'], 'John Wick')
         self.assertEqual(result['salary'], 50000)
@@ -25,37 +24,85 @@ class TestEmployee(unittest.TestCase):
 
     def test_increase_salary(self):
         employee = Employee('John Wick', 50000, 120, 100)
+
+        # valid salary increase
         increase_result = employee.increase_salary(10250)
-        self.assertEqual(increase_result, 'John Wick\'s salary has increased to 60250')
+        self.assertFalse(increase_result['error'])
+        self.assertIsNone(increase_result['error_message'])
         
-        result = json.loads(employee.details())
+        result = employee.details()
+        self.assertEqual(result['name'], 'John Wick')
+        self.assertEqual(result['salary'], 60250)
+
+        # invalid salary increase
+        increase_result = employee.increase_salary(-5000)
+        self.assertTrue(increase_result['error'])
+        self.assertEqual(increase_result['error_message'], 'Salary cannot be reduced, please enter a positive number')
+        
+        result = employee.details()
         self.assertEqual(result['name'], 'John Wick')
         self.assertEqual(result['salary'], 60250)
 
     def test_increase_speed(self):
         employee = Employee('John Wick', 50000, 120, 100)
+
+        # valid speed increase
         increase_result = employee.increase_speed(10)
-        self.assertEqual(increase_result, 'John Wick\'s speed has increased to 130')
+        self.assertFalse(increase_result['error'])
+        self.assertIsNone(increase_result['error_message'])
         
-        result = json.loads(employee.details())
+        result = employee.details()
+        self.assertEqual(result['name'], 'John Wick')
+        self.assertEqual(result['speed'], 130)
+
+        # invalid speed increase
+        increase_result = employee.increase_speed(-10)
+        self.assertTrue(increase_result['error'])
+        self.assertEqual(increase_result['error_message'], 'Speed cannot be reduced, please enter a positive number')
+        
+        result = employee.details()
         self.assertEqual(result['name'], 'John Wick')
         self.assertEqual(result['speed'], 130)
 
     def test_increase_stamina(self):
         employee = Employee('John Wick', 50000, 120, 100)
+
+        # valid stamina increase
         increase_result = employee.increase_stamina(20)
-        self.assertEqual(increase_result, 'John Wick\'s stamina has increased to 120')
+        self.assertFalse(increase_result['error'])
+        self.assertIsNone(increase_result['error_message'])
         
-        result = json.loads(employee.details())
+        result = employee.details()
+        self.assertEqual(result['name'], 'John Wick')
+        self.assertEqual(result['stamina'], 120)
+
+        # invalid stamina increase
+        increase_result = employee.increase_stamina(-20)
+        self.assertTrue(increase_result['error'])
+        self.assertEqual(increase_result['error_message'], 'Stamina cannot be reduced, please enter a positive number')
+        
+        result = employee.details()
         self.assertEqual(result['name'], 'John Wick')
         self.assertEqual(result['stamina'], 120)
 
     def test_remove(self):
         employee = Employee('John Wick', 50000, 120, 100)
+
+        # valid removal
         remove_result = employee.remove()
-        self.assertEqual(remove_result, 'John Wick has been removed from the staff')
+        self.assertFalse(remove_result['error'])
+        self.assertIsNone(remove_result['error_message'])
         
-        result = json.loads(employee.details())
+        result = employee.details()
+        self.assertEqual(result['name'], 'John Wick')
+        self.assertEqual(result['status'], 'inactive')
+
+        # invalid removal
+        remove_result = employee.remove()
+        self.assertTrue(remove_result['error'])
+        self.assertEqual(remove_result['error_message'], 'Employee is already inactive')
+        
+        result = employee.details()
         self.assertEqual(result['name'], 'John Wick')
         self.assertEqual(result['status'], 'inactive')
 

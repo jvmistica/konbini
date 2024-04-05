@@ -1,7 +1,9 @@
-import json
 import uuid
 
 class Employee:
+    max_speed = 500
+    max_stamina = 500
+
     def __init__(self, name: str, salary: float, speed: int, stamina: int):
         self.id = str(uuid.uuid4())
         self.name = name
@@ -15,7 +17,7 @@ class Employee:
         Returns the details of an employee.
         """
 
-        details = {
+        return {
             'id': self.id,
             'name': self.name,
             'status': self.status,
@@ -23,36 +25,71 @@ class Employee:
             'speed': self.speed,
             'stamina': self.stamina
         }
-        return json.dumps(details)
 
     def increase_salary(self, amount: float) -> str:
         """
         Increases the salary of an employee.
         """
 
-        self.salary += amount
-        return f'{self.name}\'s salary has increased to {self.salary}'
+        if amount < 0:
+            return {
+                'error': True,
+                'error_message': 'Salary cannot be reduced, please enter a positive number'
+            }
 
-    def increase_speed(self, amount: float) -> str:
+        self.salary += amount
+        return {
+            'error': False,
+            'error_message': None
+        }
+
+    def increase_speed(self, amount: int) -> str:
         """
         Increases the speed of an employee.
         """
 
-        self.speed += amount
-        return f'{self.name}\'s speed has increased to {self.speed}'
+        if amount < 0:
+            return {
+                'error': True,
+                'error_message': 'Speed cannot be reduced, please enter a positive number'
+            }
 
-    def increase_stamina(self, amount: float) -> str:
+        self.speed += amount
+        return {
+            'error': False,
+            'error_message': None
+        }
+
+    def increase_stamina(self, amount: int) -> str:
         """
         Increases the stamina of an employee.
         """
 
+        if amount < 0:
+            return {
+                'error': True,
+                'error_message': 'Stamina cannot be reduced, please enter a positive number'
+            }
+
         self.stamina += amount
-        return f'{self.name}\'s stamina has increased to {self.stamina}'
+        return {
+            'error': False,
+            'error_message': None
+        }
 
     def remove(self) -> str:
         """
         Removes an employee.
         """
 
+        if self.status == 'inactive':
+            return {
+                'error': True,
+                'error_message': 'Employee is already inactive'
+            }
+
         self.status = 'inactive'
-        return f'{self.name} has been removed from the staff'
+        return {
+            'error': False,
+            'error_message': None
+        }
