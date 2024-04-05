@@ -1,12 +1,8 @@
-import json
 import unittest
 from shelf import Shelf
 from item import Item
 from helper import create_items
 
-# TODO:
-# setup and teardown methods
-# break down and clean-up tests
 class TestShelf(unittest.TestCase):
 
     def test_new_shelf(self):
@@ -34,16 +30,17 @@ class TestShelf(unittest.TestCase):
 
     def test_details(self):
         shelf = Shelf('Shelf #1', 'small')
-        result = json.loads(shelf.details())
+        result = shelf.details()
         self.assertEqual(result['name'], 'Shelf #1')
         self.assertEqual(result['slots'], 4)
         self.assertEqual(len(result['items']), 0)
 
         item = Item('pudding', 20, 1.99, False)
         add_result = shelf.add_item(item)
-        self.assertEqual(add_result, 'Item has been added to the shelf')
+        self.assertFalse(add_result['error'])
+        self.assertIsNone(add_result['error_message'])
 
-        result = json.loads(shelf.details())
+        result = shelf.details()
         self.assertEqual(result['name'], 'Shelf #1')
         self.assertEqual(result['slots'], 3)
         self.assertEqual(len(result['items']), 1)
@@ -54,12 +51,20 @@ class TestShelf(unittest.TestCase):
 
     def test_remove(self):
         shelf = Shelf('Shelf #1', 'small')
-        result = json.loads(shelf.details())
+        result = shelf.details()
         self.assertEqual(result['name'], 'Shelf #1')
         self.assertEqual(result['status'], 'active')
 
+        # valid removal
         remove_result = shelf.remove()
-        self.assertEqual(remove_result, 'Shelf #1 has been removed from the display')
+        self.assertFalse(remove_result['error'])
+        self.assertIsNone(remove_result['error_message'])
+        self.assertEqual(shelf.status, 'inactive')
+
+        # invalid removal
+        remove_result = shelf.remove()
+        self.assertTrue(remove_result['error'])
+        self.assertEqual(remove_result['error_message'], 'Shelf is already inactive')
         self.assertEqual(shelf.status, 'inactive')
 
     def test_add_item(self):
@@ -69,24 +74,28 @@ class TestShelf(unittest.TestCase):
         for i, item in enumerate(items):
             result = shelf.add_item(item)
             if i < 4:
-                # valid
-                self.assertEqual(result, 'Item has been added to the shelf')
+                # valid addition
+                self.assertFalse(result['error'])
+                self.assertIsNone(result['error_message'])
             else:
-                # no slots left
-                self.assertEqual(result, 'Item cannot be added to the shelf, all slots are taken')
+                # invalid addition, no slots left
+                self.assertTrue(result['error'])
+                self.assertEqual(result['error_message'], 'Item cannot be added to the shelf, all slots are taken')
 
-        # not a shelf item
+        # invalid addition, not a shelf item
         invalid_item = Item('Item 5', 30, 1.99, True)
         result = shelf.add_item(invalid_item)
-        self.assertEqual(result, 'Item 5 is not a type of item that can be added to a shelf')
+        self.assertTrue(result['error'])
+        self.assertEqual(result['error_message'], 'Item 5 is not a type of item that can be added to a shelf')
 
     def test_replace_item(self):
         shelf = Shelf('Shelf #1', 'small')
         item = Item('pudding', 20, 1.99, False)
         add_result = shelf.add_item(item)
-        self.assertEqual(add_result, 'Item has been added to the shelf')
+        self.assertFalse(add_result['error'])
+        self.assertIsNone(add_result['error_message'])
         
-        result = json.loads(shelf.details())
+        result = shelf.details()
         self.assertEqual(result['name'], 'Shelf #1')
         self.assertEqual(result['slots'], 3)
         self.assertEqual(len(result['items']), 1)
@@ -95,20 +104,22 @@ class TestShelf(unittest.TestCase):
         # valid replace
         new_item = Item('chocolate', 25, 1.59, False)
         replace_result = shelf.replace_item(item, new_item)
-        self.assertEqual(replace_result, f'Discarded: {item.name}\nAdded: {new_item.name}')
+        self.assertFalse(replace_result['error'])
+        self.assertIsNone(replace_result['error_message'])
 
-        result = json.loads(shelf.details())
+        result = shelf.details()
         self.assertEqual(result['name'], 'Shelf #1')
         self.assertEqual(result['slots'], 3)
         self.assertEqual(len(result['items']), 1)
         self.assertEqual(result['items'][0]['name'], 'chocolate')
 
-        # invalid replace: item being replaced does not exist
+        # invalid replace, item does not exist
         new_item = Item('cake', 25, 1.59, False)
-        with self.assertRaises(ValueError):
-            shelf.replace_item(item, new_item)
+        replace_result = shelf.replace_item(item, new_item)
+        self.assertTrue(replace_result['error'])
+        self.assertEqual(replace_result['error_message'], 'Item \'pudding\' does not exist')
 
-        result = json.loads(shelf.details())
+        result = shelf.details()
         self.assertEqual(result['name'], 'Shelf #1')
         self.assertEqual(result['slots'], 3)
         self.assertEqual(len(result['items']), 1)
@@ -118,17 +129,30 @@ class TestShelf(unittest.TestCase):
         shelf = Shelf('Shelf #1', 'small')
         item = Item('pudding', 20, 1.99, False)
         add_result = shelf.add_item(item)
-        self.assertEqual(add_result, 'Item has been added to the shelf')
+        self.assertFalse(add_result['error'])
+        self.assertIsNone(add_result['error_message'])
         
-        result = json.loads(shelf.details())
+        result = shelf.details()
         self.assertEqual(result['name'], 'Shelf #1')
         self.assertEqual(result['slots'], 3)
         self.assertEqual(result['items'][0]['name'], 'pudding')
 
+        # valid removal
         remove_result = shelf.remove_item(item)
-        self.assertEqual(remove_result, 'Item "pudding" has been removed from the shelf')
+        self.assertFalse(remove_result['error'])
+        self.assertIsNone(remove_result['error_message'])
         
-        result = json.loads(shelf.details())
+        result = shelf.details()
+        self.assertEqual(result['name'], 'Shelf #1')
+        self.assertEqual(result['slots'], 4)
+        self.assertEqual(len(result['items']), 0)
+
+        # invalid removal
+        remove_result = shelf.remove_item(item)
+        self.assertTrue(remove_result['error'])
+        self.assertEqual(remove_result['error_message'], 'Item \'pudding\' does not exist')
+        
+        result = shelf.details()
         self.assertEqual(result['name'], 'Shelf #1')
         self.assertEqual(result['slots'], 4)
         self.assertEqual(len(result['items']), 0)
