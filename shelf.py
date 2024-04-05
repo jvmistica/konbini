@@ -84,7 +84,6 @@ class Shelf:
                     'error': False,
                     'error_message': None
                 }
-                # return f'Discarded: {current_item.name}\nAdded: {new_item.name}'
         return {
             'error': True,
             'error_message': f'Item \'{current_item.name}\' does not exist'
