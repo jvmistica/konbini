@@ -1,4 +1,3 @@
-import json
 import uuid
 
 class Item:
@@ -8,36 +7,54 @@ class Item:
         self.count = count
         self.price = price
         self.counter = counter
+        self.min_restock = 20
 
     def details(self) -> str:
         """
         Returns the details of the item.
         """
 
-        details = {
+        return {
             'id': self.id,
             'name': self.name,
             'count': self.count,
             'price': self.price,
             'counter': self.counter
         }
-        return json.dumps(details)
 
     def sell(self, count: int) -> str:
         """
         Sells an item.
         """
 
+        if self.count < count:
+            return {
+                'error': True,
+                'error_message': f'Cannot sell {count} amount of items, remaining stock: {self.count}'
+            }
+
         self.count -= count
-        return f'{self.name}\'s count has decreased to {self.count}'
+        return {
+            'error': False,
+            'error_message': None
+        }
 
     def restock(self, count: int) -> str:
         """
         Re-stocks an item.
         """
 
+        if count < self.min_restock:
+            return {
+                'error': True,
+                'error_message': f'Cannot re-stock {count} amount of items, minimum re-stock value: {self.min_restock}'
+            }
+
         self.count += count
-        return f'{self.name}\'s count has increased to {self.count}'
+        return {
+            'error': False,
+            'error_message': None
+        }
 
     def update_price(self, new_price: float) -> str:
         """
@@ -45,12 +62,24 @@ class Item:
         """
 
         self.price = new_price
-        return f'{self.name}\'s price is now {self.price}'
+        return {
+            'error': False,
+            'error_message': None
+        }
 
     def remove(self) -> str:
         """
         Removes an item.
         """
 
+        if self.count == 0:
+            return {
+                'error': True,
+                'error_message': 'Cannot remove item, amount is already zero'
+            }
+
         self.count = 0
-        return f'{self.name} has been removed from the inventory'
+        return {
+            'error': False,
+            'error_message': None
+        }
