@@ -1,11 +1,12 @@
 import json
 import uuid
+from employee import Employee
 from item import Item
 
 class Counter:
     slots = 8
 
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.id = str(uuid.uuid4())
         self.name = name
         self.status = 'active'
@@ -13,7 +14,7 @@ class Counter:
         self.items = []
         self.employee = ''
 
-    def details(self):
+    def details(self) -> str:
         """
         Returns the details of a counter.
         """
@@ -28,7 +29,7 @@ class Counter:
         }
         return json.dumps(details)
 
-    def remove(self):
+    def remove(self) -> str:
         """
         Removes a counter.
         """
@@ -36,7 +37,7 @@ class Counter:
         self.status = 'inactive'
         return f'{self.name} has been removed from the display'
 
-    def assign_employee(self, employee):
+    def assign_employee(self, employee: Employee) -> str:
         """
         Assigns an employee to a counter.
         """
@@ -48,7 +49,7 @@ class Counter:
         return f'{employee.name} has been assigned to counter {self.name}'
 
 
-    def add_item(self, item):
+    def add_item(self, item: Item) -> str:
         """
         Adds an item to a counter.
         """
@@ -63,7 +64,7 @@ class Counter:
         self.slots -= 1
         return f'Item has been added to the counter'
 
-    def replace_item(self, current_item, new_item):
+    def replace_item(self, current_item: Item, new_item: Item) -> str:
         """
         Replaces an item in a counter.
         """
@@ -77,7 +78,7 @@ class Counter:
                 return f'Discarded: {current_item.name}\nAdded: {new_item.name}'
         raise ValueError(f'Item \'{current_item.name}\' does not exist')
 
-    def remove_item(self, item):
+    def remove_item(self, item: Item) -> str:
         """
         Removes an item from a counter.
         """
