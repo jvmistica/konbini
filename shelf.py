@@ -17,7 +17,7 @@ class Shelf:
         else:
             raise ValueError('Invalid size. Valid sizes: small, medium, large')
 
-    def details(self) -> str:
+    def details(self) -> dict:
         """
         Returns the details of the shelf.
         """
@@ -33,7 +33,7 @@ class Shelf:
         }
         return json.dumps(details)
 
-    def remove(self) -> str:
+    def remove(self) -> dict:
         """
         Removes a shelf.
         """
@@ -41,7 +41,7 @@ class Shelf:
         self.status = 'inactive'
         return f'{self.name} has been removed from the display'
 
-    def add_item(self, item: Item) -> str:
+    def add_item(self, item: Item) -> dict:
         """
         Adds an item to a shelf.
         """
@@ -56,7 +56,7 @@ class Shelf:
         self.slots -= 1
         return 'Item has been added to the shelf'
 
-    def replace_item(self, current_item: Item, new_item: Item) -> str:
+    def replace_item(self, current_item: Item, new_item: Item) -> dict:
         """
         Replaces an item in a shelf.
         """
@@ -67,7 +67,7 @@ class Shelf:
                 return f'Discarded: {current_item.name}\nAdded: {new_item.name}'
         raise ValueError(f'Item \'{current_item.name}\' does not exist')
 
-    def remove_item(self, item: Item) -> str:
+    def remove_item(self, item: Item) -> dict:
         """
         Removes an item from a shelf.
         """

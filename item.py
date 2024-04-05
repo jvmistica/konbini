@@ -9,7 +9,7 @@ class Item:
         self.counter = counter
         self.min_restock = 20
 
-    def details(self) -> str:
+    def details(self) -> dict:
         """
         Returns the details of the item.
         """
@@ -22,7 +22,7 @@ class Item:
             'counter': self.counter
         }
 
-    def sell(self, count: int) -> str:
+    def sell(self, count: int) -> dict:
         """
         Sells an item.
         """
@@ -39,7 +39,7 @@ class Item:
             'error_message': None
         }
 
-    def restock(self, count: int) -> str:
+    def restock(self, count: int) -> dict:
         """
         Re-stocks an item.
         """
@@ -56,7 +56,7 @@ class Item:
             'error_message': None
         }
 
-    def update_price(self, new_price: float) -> str:
+    def update_price(self, new_price: float) -> dict:
         """
         Updates the price of an item.
         """
@@ -67,7 +67,7 @@ class Item:
             'error_message': None
         }
 
-    def remove(self) -> str:
+    def remove(self) -> dict:
         """
         Removes an item.
         """

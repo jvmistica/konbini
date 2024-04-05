@@ -14,7 +14,7 @@ class Counter:
         self.items = []
         self.employee = ''
 
-    def details(self) -> str:
+    def details(self) -> dict:
         """
         Returns the details of a counter.
         """
@@ -29,7 +29,7 @@ class Counter:
         }
         return json.dumps(details)
 
-    def remove(self) -> str:
+    def remove(self) -> dict:
         """
         Removes a counter.
         """
@@ -37,7 +37,7 @@ class Counter:
         self.status = 'inactive'
         return f'{self.name} has been removed from the display'
 
-    def assign_employee(self, employee: Employee) -> str:
+    def assign_employee(self, employee: Employee) -> dict:
         """
         Assigns an employee to a counter.
         """
@@ -49,7 +49,7 @@ class Counter:
         return f'{employee.name} has been assigned to counter {self.name}'
 
 
-    def add_item(self, item: Item) -> str:
+    def add_item(self, item: Item) -> dict:
         """
         Adds an item to a counter.
         """
@@ -64,7 +64,7 @@ class Counter:
         self.slots -= 1
         return f'Item has been added to the counter'
 
-    def replace_item(self, current_item: Item, new_item: Item) -> str:
+    def replace_item(self, current_item: Item, new_item: Item) -> dict:
         """
         Replaces an item in a counter.
         """
@@ -78,7 +78,7 @@ class Counter:
                 return f'Discarded: {current_item.name}\nAdded: {new_item.name}'
         raise ValueError(f'Item \'{current_item.name}\' does not exist')
 
-    def remove_item(self, item: Item) -> str:
+    def remove_item(self, item: Item) -> dict:
         """
         Removes an item from a counter.
         """

@@ -12,7 +12,7 @@ class Employee:
         self.stamina = stamina
         self.status = 'active'
 
-    def details(self) -> str:
+    def details(self) -> dict:
         """
         Returns the details of an employee.
         """
@@ -26,7 +26,7 @@ class Employee:
             'stamina': self.stamina
         }
 
-    def increase_salary(self, amount: float) -> str:
+    def increase_salary(self, amount: float) -> dict:
         """
         Increases the salary of an employee.
         """
@@ -43,7 +43,7 @@ class Employee:
             'error_message': None
         }
 
-    def increase_speed(self, amount: int) -> str:
+    def increase_speed(self, amount: int) -> dict:
         """
         Increases the speed of an employee.
         """
@@ -60,7 +60,7 @@ class Employee:
             'error_message': None
         }
 
-    def increase_stamina(self, amount: int) -> str:
+    def increase_stamina(self, amount: int) -> dict:
         """
         Increases the stamina of an employee.
         """
@@ -77,7 +77,7 @@ class Employee:
             'error_message': None
         }
 
-    def remove(self) -> str:
+    def remove(self) -> dict:
         """
         Removes an employee.
         """
