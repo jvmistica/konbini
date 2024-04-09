@@ -64,7 +64,7 @@ class TestShelf(unittest.TestCase):
         # invalid removal
         remove_result = shelf.remove()
         self.assertTrue(remove_result['error'])
-        self.assertEqual(remove_result['error_message'], 'Shelf is already inactive')
+        self.assertEqual(remove_result['error_message'], 'Shelf #1 is already inactive')
         self.assertEqual(shelf.status, 'inactive')
 
     def test_add_item(self):
@@ -80,13 +80,13 @@ class TestShelf(unittest.TestCase):
             else:
                 # invalid addition, no slots left
                 self.assertTrue(result['error'])
-                self.assertEqual(result['error_message'], 'Item cannot be added to the shelf, all slots are taken')
+                self.assertEqual(result['error_message'], 'Item cannot be added to Shelf #1, all slots are taken')
 
         # invalid addition, not a shelf item
         invalid_item = Item('Item 5', 30, 1.99, True)
         result = shelf.add_item(invalid_item)
         self.assertTrue(result['error'])
-        self.assertEqual(result['error_message'], 'Item 5 is not a type of item that can be added to a shelf')
+        self.assertEqual(result['error_message'], 'Item 5 is not a type of item that can be added to Shelf #1')
 
     def test_replace_item(self):
         shelf = Shelf('Shelf #1', 'small')

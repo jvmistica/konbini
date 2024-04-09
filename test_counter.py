@@ -49,7 +49,7 @@ class TestCounter(unittest.TestCase):
         # invalid removal
         remove_result = counter.remove()
         self.assertTrue(remove_result['error'])
-        self.assertEqual(remove_result['error_message'], 'Counter is already inactive')
+        self.assertEqual(remove_result['error_message'], 'Counter #1 is already inactive')
         self.assertEqual(counter.status, 'inactive')
 
     def test_assign_employee(self):
@@ -81,13 +81,13 @@ class TestCounter(unittest.TestCase):
             else:
                 # invalid addition, no slots left
                 self.assertTrue(result['error'])
-                self.assertEqual(result['error_message'], 'Item cannot be added to the counter, all slots are taken')
+                self.assertEqual(result['error_message'], 'Item cannot be added to Counter #1, all slots are taken')
 
         # invalid addition, not a counter item
         invalid_item = Item('Item 10', 30, 1.99, False)
         result = counter.add_item(invalid_item)
         self.assertTrue(result['error'])
-        self.assertEqual(result['error_message'], 'Item 10 is not a type of item that can be added to a counter')
+        self.assertEqual(result['error_message'], 'Item 10 is not a type of item that can be added to Counter #1')
 
     def test_replace_item(self):
         counter = Counter('Counter #1')
