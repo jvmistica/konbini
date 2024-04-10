@@ -1,4 +1,4 @@
-from item import Item
+from konbini.item import Item
 
 def create_items(count, is_counter_item):
     items = []

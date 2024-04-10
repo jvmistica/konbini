@@ -1,5 +1,5 @@
 import unittest
-from employee import Employee
+from konbini.employee import Employee
 
 class TestEmployee(unittest.TestCase):
 

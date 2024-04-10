@@ -1,7 +1,7 @@
 import unittest
-from shelf import Shelf
-from item import Item
-from helper import create_items
+from konbini.helper import create_items
+from konbini.item import Item
+from konbini.shelf import Shelf
 
 class TestShelf(unittest.TestCase):
 

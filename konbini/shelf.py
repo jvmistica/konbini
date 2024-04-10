@@ -1,5 +1,5 @@
-from display import Display
-from item import Item
+from konbini.display import Display
+from konbini.item import Item
 
 class Shelf(Display):
     sizes = {'small': 4, 'medium': 8, 'large': 12}

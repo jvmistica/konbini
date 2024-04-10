@@ -1,5 +1,5 @@
 import uuid
-from item import Item
+from konbini.item import Item
 
 class Display:
     def __init__(self, name: str):

@@ -1,8 +1,8 @@
 import unittest
-from counter import Counter
-from item import Item
-from employee import Employee
-from helper import create_items
+from konbini.counter import Counter
+from konbini.employee import Employee
+from konbini.item import Item
+from konbini.helper import create_items
 
 class TestCounter(unittest.TestCase):
 

@@ -1,6 +1,6 @@
-from employee import Employee
-from display import Display
-from item import Item
+from konbini.employee import Employee
+from konbini.display import Display
+from konbini.item import Item
 
 class Counter(Display):
     slots = 8
