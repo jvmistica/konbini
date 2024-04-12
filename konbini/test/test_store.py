@@ -49,7 +49,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(len(details['displays']), 2)
 
         counter = Counter('Counter #2')
-        result = store.add_shelf(counter)
+        result = store.add_counter(counter)
         self.assertFalse(result['error'])
         self.assertIsNone(result['error_message'])
 
