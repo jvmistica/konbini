@@ -8,6 +8,7 @@ class TestShelf(unittest.TestCase):
     def test_new_shelf(self):
         # small shelf
         shelf = Shelf('Shelf #1', 'small')
+        self.assertIsNotNone(shelf.id)
         self.assertEqual(shelf.name, 'Shelf #1')
         self.assertEqual(shelf.slots, 4)
         self.assertEqual(shelf.size, 'small')

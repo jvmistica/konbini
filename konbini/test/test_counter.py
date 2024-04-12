@@ -8,6 +8,7 @@ class TestCounter(unittest.TestCase):
 
     def test_new_counter(self):
         counter = Counter('Counter #1')
+        self.assertIsNotNone(counter.id)
         self.assertEqual(counter.name, 'Counter #1')
         self.assertEqual(counter.slots, 8)
 
