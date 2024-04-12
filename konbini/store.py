@@ -11,7 +11,7 @@ class Store:
         self.id = str(uuid.uuid4())
         self.name = name
         self.location = location
-        self.money = capital
+        self.money = Store.capital
 
         employees = []
         employees.append(Employee('Employee #1', 20000, 80, 80))
@@ -32,7 +32,7 @@ class Store:
             'name': self.name,
             'location': self.location,
             'money': self.money,
-            'currency': currency,
+            'currency': Store.currency,
             'employees': self.employees,
             'displays': self.displays
         }
