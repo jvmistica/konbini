@@ -3,6 +3,7 @@ from konbini.display import Display
 from konbini.item import Item
 
 class Counter(Display):
+    cost = 6500
     slots = 8
 
     def __init__(self, name: str):

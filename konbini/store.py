@@ -43,6 +43,8 @@ class Store:
         """
 
         self.displays.append(shelf)
+        self.money -= Shelf.cost
+
         return {
             'error': False,
             'error_message': None
@@ -54,6 +56,8 @@ class Store:
         """
 
         self.displays.append(counter)
+        self.money -= Counter.cost
+
         return {
             'error': False,
             'error_message': None

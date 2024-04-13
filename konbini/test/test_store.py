@@ -42,6 +42,7 @@ class TestStore(unittest.TestCase):
         details = store.details()
         self.assertEqual(len(details['displays']), 3)
         self.assertEqual(details['displays'][2].name, 'Shelf #2')
+        self.assertEqual(details['money'], 95000)
 
     def test_add_counter(self):
         store = Store('Store #1', 'Small Town ABC')
@@ -56,6 +57,7 @@ class TestStore(unittest.TestCase):
         details = store.details()
         self.assertEqual(len(details['displays']), 3)
         self.assertEqual(details['displays'][2].name, 'Counter #2')
+        self.assertEqual(details['money'], 93500)
 
     def test_add_employee(self):
         store = Store('Store #1', 'Small Town ABC')
