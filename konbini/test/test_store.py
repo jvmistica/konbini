@@ -91,21 +91,21 @@ class TestStore(unittest.TestCase):
                 cost += (item.count * item.price)
                 self.assertFalse(result['error'])
                 self.assertIsNone(result['error_message'])
-                self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+                self.assertAlmostEqual(store.money, Store.capital - cost)
                 self.assertEqual(store.displays[2].name, 'Shelf #1')
                 self.assertEqual(len(store.displays[2].items), i + 1)
             else:
                 # invalid addition, no slots left
                 self.assertTrue(result['error'])
                 self.assertEqual(result['error_message'], 'Item cannot be added to Shelf #1, all slots are taken')
-                self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+                self.assertAlmostEqual(store.money, Store.capital - cost)
 
         # invalid addition, not a shelf item
         invalid_item = Item('Item 5', 30, 1.99, True)
         result = store.add_item_shelf(shelf, invalid_item)
         self.assertTrue(result['error'])
         self.assertEqual(result['error_message'], 'Item 5 is not a type of item that can be added to Shelf #1')
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
     def test_replace_item_shelf(self):
         store = Store('Store #1', 'Small Town ABC')
@@ -124,7 +124,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].slots, 3)
         self.assertEqual(len(store.displays[2].items), 1)
         self.assertEqual(store.displays[2].items[0].name, 'pudding')
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
         # valid replace
         new_item = Item('chocolate', 25, 1.59, False)
@@ -137,7 +137,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].slots, 3)
         self.assertEqual(len(store.displays[2].items), 1)
         self.assertEqual(store.displays[2].items[0].name, 'chocolate')
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
         # invalid replace, item does not exist
         new_item = Item('cake', 25, 1.59, False)
@@ -149,7 +149,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].slots, 3)
         self.assertEqual(len(store.displays[2].items), 1)
         self.assertEqual(store.displays[2].items[0].name, 'chocolate')
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
     def test_remove_item_shelf(self):
         store = Store('Store #1', 'Small Town ABC')
@@ -168,7 +168,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].slots, 3)
         self.assertEqual(len(store.displays[2].items), 1)
         self.assertEqual(store.displays[2].items[0].name, 'pudding')
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
         # valid removal
         result = store.remove_item_shelf(shelf, item)
@@ -178,7 +178,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].name, 'Shelf #1')
         self.assertEqual(store.displays[2].slots, 4)
         self.assertEqual(len(store.displays[2].items), 0)
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
         # invalid removal
         result = store.remove_item_shelf(shelf, item)
@@ -188,7 +188,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].name, 'Shelf #1')
         self.assertEqual(store.displays[2].slots, 4)
         self.assertEqual(len(store.displays[2].items), 0)
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
     def test_add_item_counter(self):
         store = Store('Store #1', 'Small Town ABC')
@@ -206,21 +206,21 @@ class TestStore(unittest.TestCase):
                 cost += (item.count * item.price)
                 self.assertFalse(result['error'])
                 self.assertIsNone(result['error_message'])
-                self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+                self.assertAlmostEqual(store.money, Store.capital - cost)
                 self.assertEqual(store.displays[2].name, 'Counter #1')
                 self.assertEqual(len(store.displays[2].items), i + 1)
             else:
                  # invalid addition, no slots left
                  self.assertTrue(result['error'])
                  self.assertEqual(result['error_message'], 'Item cannot be added to Counter #1, all slots are taken')
-                 self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+                 self.assertAlmostEqual(store.money, Store.capital - cost)
 
         # invalid addition, not a counter item
         invalid_item = Item('Item 5', 30, 1.99, False)
         result = store.add_item_counter(counter, invalid_item)
         self.assertTrue(result['error'])
         self.assertEqual(result['error_message'], 'Item 5 is not a type of item that can be added to Counter #1')
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
     def test_replace_item_counter(self):
         store = Store('Store #1', 'Small Town ABC')
@@ -239,7 +239,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].slots, 7)
         self.assertEqual(len(store.displays[2].items), 1)
         self.assertEqual(store.displays[2].items[0].name, 'kariman')
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
         # valid replace
         new_item = Item('siopao', 25, 1.59, True)
@@ -252,7 +252,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].slots, 7)
         self.assertEqual(len(store.displays[2].items), 1)
         self.assertEqual(store.displays[2].items[0].name, 'siopao')
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
         # invalid replace, item does not exist
         new_item = Item('dumplings', 25, 1.59, True)
@@ -264,7 +264,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].slots, 7)
         self.assertEqual(len(store.displays[2].items), 1)
         self.assertEqual(store.displays[2].items[0].name, 'siopao')
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
     def test_remove_item_counter(self):
         store = Store('Store #1', 'Small Town ABC')
@@ -283,7 +283,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].slots, 7)
         self.assertEqual(len(store.displays[2].items), 1)
         self.assertEqual(store.displays[2].items[0].name, 'kariman')
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
         # valid removal
         result = store.remove_item_counter(counter, item)
@@ -293,7 +293,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].name, 'Counter #1')
         self.assertEqual(store.displays[2].slots, 8)
         self.assertEqual(len(store.displays[2].items), 0)
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
         # invalid removal
         result = store.remove_item_counter(counter, item)
@@ -303,7 +303,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(store.displays[2].name, 'Counter #1')
         self.assertEqual(store.displays[2].slots, 8)
         self.assertEqual(len(store.displays[2].items), 0)
-        self.assertEqual(round(store.money, 2), round(Store.capital - cost, 2))
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
     def test_restock_item_counter(self):
         store = Store('Store #1', 'Small Town ABC')
@@ -322,6 +322,7 @@ class TestStore(unittest.TestCase):
         self.assertFalse(result['error'])
         self.assertEqual(store.displays[2].items[0].name, 'kariman')
         self.assertEqual(store.displays[2].items[0].count, 50)
+        self.assertAlmostEqual(store.money, Store.capital - cost)
 
 if __name__ == '__main__':
     unittest.main()
