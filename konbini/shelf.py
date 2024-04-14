@@ -2,6 +2,7 @@ from konbini.display import Display
 from konbini.item import Item
 
 class Shelf(Display):
+    cost = 5000
     sizes = {'small': 4, 'medium': 8, 'large': 12}
 
     def __init__(self, name: str, size: str):
