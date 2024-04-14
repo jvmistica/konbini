@@ -26,9 +26,6 @@ class TestStore(unittest.TestCase):
         self.validate_initial_details(result)
 
     def test_add_shelf(self):
-        result = self.store.details()
-        self.validate_initial_details(result)
-
         shelf = Shelf('Shelf #2', 'small')
         result = self.store.add_shelf(shelf)
         self.assertFalse(result['error'])
@@ -40,9 +37,6 @@ class TestStore(unittest.TestCase):
         self.assertEqual(details['money'], 95000)
 
     def test_add_counter(self):
-        result = self.store.details()
-        self.validate_initial_details(result)
-
         counter = Counter('Counter #2')
         result = self.store.add_counter(counter)
         self.assertFalse(result['error'])
@@ -54,9 +48,6 @@ class TestStore(unittest.TestCase):
         self.assertEqual(details['money'], 93500)
 
     def test_add_employee(self):
-        result = self.store.details()
-        self.validate_initial_details(result)
-
         employee = Employee('John Wick', 50000, 120, 100)
         result = self.store.add_employee(employee)
         self.assertFalse(result['error'])
