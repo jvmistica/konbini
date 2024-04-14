@@ -11,7 +11,7 @@ class TestStore(unittest.TestCase):
     def setUp(self):
         self.store = Store('Store #1', 'Small Town ABC')
 
-    def validate_initial_details(self, result: Store):
+    def validate_initial_details(self, result: dict):
         self.assertIsNotNone(result['id'])
         self.assertEqual(result['name'], 'Store #1')
         self.assertEqual(result['location'], 'Small Town ABC')
