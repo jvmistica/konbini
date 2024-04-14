@@ -321,7 +321,7 @@ class TestStore(unittest.TestCase):
         result = item.restock(30)
         self.assertFalse(result['error'])
         self.assertEqual(store.displays[2].items[0].name, 'kariman')
-        self.assertEqual(store.displays[2].items[0].count, 0)
+        self.assertEqual(store.displays[2].items[0].count, 50)
 
 if __name__ == '__main__':
     unittest.main()
