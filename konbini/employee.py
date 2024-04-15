@@ -1,5 +1,6 @@
 import uuid
 
+
 class Employee:
     max_speed = 500
     max_stamina = 500

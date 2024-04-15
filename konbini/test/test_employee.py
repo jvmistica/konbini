@@ -1,6 +1,7 @@
 import unittest
 from konbini.employee import Employee
 
+
 class TestEmployee(unittest.TestCase):
 
     def setUp(self):
@@ -117,6 +118,7 @@ class TestEmployee(unittest.TestCase):
         result = self.employee.details()
         self.assertEqual(result['name'], 'John Wick')
         self.assertEqual(result['status'], 'inactive')
+
 
 if __name__ == '__main__':
     unittest.main()

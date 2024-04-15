@@ -3,6 +3,7 @@ from konbini.counter import Counter
 from konbini.employee import Employee
 from konbini.item import Item
 
+
 class TestCounter(unittest.TestCase):
 
     def setUp(self):
@@ -67,6 +68,7 @@ class TestCounter(unittest.TestCase):
         self.assertFalse(result['error'])
         self.assertIsNone(result['error_message'])
         self.assertEqual(self.counter.employee, employee)
+
 
 if __name__ == '__main__':
     unittest.main()

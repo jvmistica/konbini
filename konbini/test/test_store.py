@@ -6,6 +6,7 @@ from konbini.item import Item
 from konbini.shelf import Shelf
 from konbini.store import Store
 
+
 class TestStore(unittest.TestCase):
 
     def setUp(self):
@@ -272,6 +273,7 @@ class TestStore(unittest.TestCase):
         self.assertEqual(self.store.displays[2].items[0].name, 'kariman')
         self.assertEqual(self.store.displays[2].items[0].count, 50)
         self.assertAlmostEqual(self.store.money, Store.capital - cost)
+
 
 if __name__ == '__main__':
     unittest.main()

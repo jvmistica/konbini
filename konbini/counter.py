@@ -2,6 +2,7 @@ from konbini.employee import Employee
 from konbini.display import Display
 from konbini.item import Item
 
+
 class Counter(Display):
     cost = 6500
     slots = 8

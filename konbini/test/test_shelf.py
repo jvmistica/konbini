@@ -2,6 +2,7 @@ import unittest
 from konbini.item import Item
 from konbini.shelf import Shelf
 
+
 class TestShelf(unittest.TestCase):
 
     def setUp(self):

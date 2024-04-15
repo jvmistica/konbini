@@ -4,6 +4,7 @@ from konbini.employee import Employee
 from konbini.item import Item
 from konbini.shelf import Shelf
 
+
 class Store:
     capital = 100000
     currency = 'Gold'

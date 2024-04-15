@@ -1,7 +1,9 @@
 import uuid
 from konbini.item import Item
 
+
 class Display:
+
     def __init__(self, name: str):
         self.id = str(uuid.uuid4())
         self.name = name

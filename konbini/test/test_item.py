@@ -1,6 +1,7 @@
 import unittest
 from konbini.item import Item
 
+
 class TestItem(unittest.TestCase):
 
     def setUp(self):
@@ -105,6 +106,7 @@ class TestItem(unittest.TestCase):
         result = self.item.details()
         self.assertEqual(result['name'], 'pudding')
         self.assertEqual(result['count'], 0)
+
 
 if __name__ == '__main__':
     unittest.main()
