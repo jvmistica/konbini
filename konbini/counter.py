@@ -22,7 +22,8 @@ class Counter(Display):
             'name': self.name,
             'status': self.status,
             'slots': self.slots,
-            'items': item_list
+            'items': item_list,
+            'employee': self.employee,
         }
 
     def assign_employee(self, employee: Employee) -> dict:

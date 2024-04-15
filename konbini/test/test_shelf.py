@@ -4,6 +4,20 @@ from konbini.shelf import Shelf
 
 class TestShelf(unittest.TestCase):
 
+    def setUp(self):
+        self.shelf = Shelf('Shelf #1', 'small')
+
+    def tearDown(self):
+        self.shelf.remove()
+
+    def validate_initial_details(self, result: dict):
+        self.assertIsNotNone(result['id'])
+        self.assertEqual(result['name'], 'Shelf #1')
+        self.assertEqual(result['status'], 'active')
+        self.assertEqual(result['size'], 'small')
+        self.assertEqual(result['slots'], 4)
+        self.assertEqual(len(result['items']), 0)
+
     def test_new_shelf(self):
         # small shelf
         shelf = Shelf('Shelf #1', 'small')
@@ -29,17 +43,14 @@ class TestShelf(unittest.TestCase):
             Shelf('Shelf #2', 'extra-large')
 
     def test_details(self):
-        shelf = Shelf('Shelf #1', 'small')
-        result = shelf.details()
-        self.assertEqual(result['name'], 'Shelf #1')
-        self.assertEqual(result['slots'], 4)
-        self.assertEqual(len(result['items']), 0)
+        result = self.shelf.details()
+        self.validate_initial_details(result)
 
         item = Item('pudding', 20, 1.99, False)
-        shelf.items.append(item)
-        shelf.slots -= 1
+        self.shelf.items.append(item)
+        self.shelf.slots -= 1
 
-        result = shelf.details()
+        result = self.shelf.details()
         self.assertEqual(result['name'], 'Shelf #1')
         self.assertEqual(result['slots'], 3)
         self.assertEqual(len(result['items']), 1)
@@ -49,22 +60,20 @@ class TestShelf(unittest.TestCase):
         self.assertEqual(result['items'][0]['counter'], False)
 
     def test_remove(self):
-        shelf = Shelf('Shelf #1', 'small')
-        result = shelf.details()
-        self.assertEqual(result['name'], 'Shelf #1')
-        self.assertEqual(result['status'], 'active')
+        result = self.shelf.details()
+        self.validate_initial_details(result)
 
         # valid removal
-        remove_result = shelf.remove()
-        self.assertFalse(remove_result['error'])
-        self.assertIsNone(remove_result['error_message'])
-        self.assertEqual(shelf.status, 'inactive')
+        result = self.shelf.remove()
+        self.assertFalse(result['error'])
+        self.assertIsNone(result['error_message'])
+        self.assertEqual(self.shelf.status, 'inactive')
 
         # invalid removal
-        remove_result = shelf.remove()
-        self.assertTrue(remove_result['error'])
-        self.assertEqual(remove_result['error_message'], 'Shelf #1 is already inactive')
-        self.assertEqual(shelf.status, 'inactive')
+        result = self.shelf.remove()
+        self.assertTrue(result['error'])
+        self.assertEqual(result['error_message'], 'Shelf #1 is already inactive')
+        self.assertEqual(self.shelf.status, 'inactive')
 
 
 if __name__ == '__main__':

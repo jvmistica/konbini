@@ -5,6 +5,20 @@ from konbini.item import Item
 
 class TestCounter(unittest.TestCase):
 
+    def setUp(self):
+        self.counter = Counter('Counter #1')
+
+    def tearDown(self):
+        self.counter.remove()
+
+    def validate_initial_details(self, result: dict):
+        self.assertIsNotNone(result['id'])
+        self.assertEqual(result['name'], 'Counter #1')
+        self.assertEqual(result['status'], 'active')
+        self.assertEqual(result['slots'], 8)
+        self.assertEqual(len(result['items']), 0)
+        self.assertIsNone(result['employee'])
+
     def test_new_counter(self):
         counter = Counter('Counter #1')
         self.assertIsNotNone(counter.id)
@@ -12,17 +26,14 @@ class TestCounter(unittest.TestCase):
         self.assertEqual(counter.slots, 8)
 
     def test_details(self):
-        counter = Counter('Counter #1')
-        result = counter.details()
-        self.assertEqual(result['name'], 'Counter #1')
-        self.assertEqual(result['slots'], 8)
-        self.assertEqual(len(result['items']), 0)
+        result = self.counter.details()
+        self.validate_initial_details(result)
 
         item = Item('chocolate kariman', 20, 1.99, True)
-        counter.items.append(item)
-        counter.slots -= 1
+        self.counter.items.append(item)
+        self.counter.slots -= 1
 
-        result = counter.details()
+        result = self.counter.details()
         self.assertEqual(result['name'], 'Counter #1')
         self.assertEqual(result['slots'], 7)
         self.assertEqual(len(result['items']), 1)
@@ -32,40 +43,30 @@ class TestCounter(unittest.TestCase):
         self.assertEqual(result['items'][0]['counter'], True)
 
     def test_remove(self):
-        counter = Counter('Counter #1')
-        result = counter.details()
-        self.assertEqual(result['name'], 'Counter #1')
-        self.assertEqual(result['slots'], 8)
-        self.assertEqual(result['status'], 'active')
-        self.assertEqual(len(result['items']), 0)
+        result = self.counter.details()
+        self.validate_initial_details(result)
 
         # valid removal
-        remove_result = counter.remove()
-        self.assertFalse(remove_result['error'])
-        self.assertIsNone(remove_result['error_message'])
-        self.assertEqual(counter.status, 'inactive')
-
-        # invalid removal
-        remove_result = counter.remove()
-        self.assertTrue(remove_result['error'])
-        self.assertEqual(remove_result['error_message'], 'Counter #1 is already inactive')
-        self.assertEqual(counter.status, 'inactive')
-
-    def test_assign_employee(self):
-        counter = Counter('Counter #1')
-        employee = Employee('Employee 1', 70000, 80, 100)
-
-        # assign employee
-        result = counter.assign_employee(employee)
+        result = self.counter.remove()
         self.assertFalse(result['error'])
         self.assertIsNone(result['error_message'])
-        self.assertEqual(counter.employee, employee)
+        self.assertEqual(self.counter.status, 'inactive')
 
-        # # unassign employee
-        # result = counter.assign_employee('')
-        # self.assertFalse(result['error'])
-        # self.assertIsNone(result['error_message'])
-        # self.assertEqual(counter.employee, '')
+        # invalid removal
+        result = self.counter.remove()
+        self.assertTrue(result['error'])
+        self.assertEqual(result['error_message'], 'Counter #1 is already inactive')
+        self.assertEqual(self.counter.status, 'inactive')
+
+    def test_assign_employee(self):
+        result = self.counter.details()
+        self.validate_initial_details(result)
+
+        employee = Employee('Employee 1', 70000, 80, 100)
+        result = self.counter.assign_employee(employee)
+        self.assertFalse(result['error'])
+        self.assertIsNone(result['error_message'])
+        self.assertEqual(self.counter.employee, employee)
 
 if __name__ == '__main__':
     unittest.main()
