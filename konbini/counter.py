@@ -21,7 +21,7 @@ class Counter(Display):
         return {
             'id': self.id,
             'name': self.name,
-            'status': self.status,
+            'active': self.active,
             'slots': self.slots,
             'items': item_list,
             'employee': self.employee,

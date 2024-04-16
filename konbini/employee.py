@@ -11,7 +11,7 @@ class Employee:
         self.salary = salary
         self.speed = speed
         self.stamina = stamina
-        self.status = 'active'
+        self.active = True
 
     def details(self) -> dict:
         """
@@ -21,7 +21,7 @@ class Employee:
         return {
             'id': self.id,
             'name': self.name,
-            'status': self.status,
+            'active': self.active,
             'salary': self.salary,
             'speed': self.speed,
             'stamina': self.stamina
@@ -83,13 +83,13 @@ class Employee:
         Removes an employee.
         """
 
-        if self.status == 'inactive':
+        if self.active == False:
             return {
                 'error': True,
                 'error_message': 'Employee is already inactive'
             }
 
-        self.status = 'inactive'
+        self.active = False
         return {
             'error': False,
             'error_message': None

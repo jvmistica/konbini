@@ -24,7 +24,7 @@ class Shelf(Display):
         return {
             'id': self.id,
             'name': self.name,
-            'status': self.status,
+            'active': self.active,
             'size': self.size,
             'slots': self.slots,
             'items': item_list
