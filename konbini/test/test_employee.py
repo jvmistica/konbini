@@ -13,7 +13,7 @@ class TestEmployee(unittest.TestCase):
     def validate_initial_details(self, result: dict):
         self.assertIsNotNone(result['id'])
         self.assertEqual(result['name'], 'John Wick')
-        self.assertEqual(result['status'], 'active')
+        self.assertTrue(result['active'])
         self.assertEqual(result['salary'], 50000)
         self.assertEqual(result['speed'], 120)
         self.assertEqual(result['stamina'], 100)
@@ -25,7 +25,7 @@ class TestEmployee(unittest.TestCase):
         self.assertEqual(employee.salary, 50000)
         self.assertEqual(employee.speed, 120)
         self.assertEqual(employee.stamina, 100)
-        self.assertEqual(employee.status, 'active')
+        self.assertTrue(employee.active)
 
     def test_details(self):
         result = self.employee.details()
@@ -108,7 +108,7 @@ class TestEmployee(unittest.TestCase):
         
         result = self.employee.details()
         self.assertEqual(result['name'], 'John Wick')
-        self.assertEqual(result['status'], 'inactive')
+        self.assertFalse(result['active'])
 
         # invalid removal
         result = self.employee.remove()
@@ -117,7 +117,7 @@ class TestEmployee(unittest.TestCase):
         
         result = self.employee.details()
         self.assertEqual(result['name'], 'John Wick')
-        self.assertEqual(result['status'], 'inactive')
+        self.assertFalse(result['active'])
 
 
 if __name__ == '__main__':

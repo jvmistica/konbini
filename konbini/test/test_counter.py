@@ -15,7 +15,7 @@ class TestCounter(unittest.TestCase):
     def validate_initial_details(self, result: dict):
         self.assertIsNotNone(result['id'])
         self.assertEqual(result['name'], 'Counter #1')
-        self.assertEqual(result['status'], 'active')
+        self.assertTrue(result['active'])
         self.assertEqual(result['slots'], 8)
         self.assertEqual(len(result['items']), 0)
         self.assertIsNone(result['employee'])
@@ -41,7 +41,7 @@ class TestCounter(unittest.TestCase):
         self.assertEqual(result['items'][0]['name'], 'chocolate kariman')
         self.assertEqual(result['items'][0]['count'], 20)
         self.assertEqual(result['items'][0]['price'], 1.99)
-        self.assertEqual(result['items'][0]['counter'], True)
+        self.assertTrue(result['items'][0]['counter'])
 
     def test_remove(self):
         result = self.counter.details()
@@ -51,13 +51,13 @@ class TestCounter(unittest.TestCase):
         result = self.counter.remove()
         self.assertFalse(result['error'])
         self.assertIsNone(result['error_message'])
-        self.assertEqual(self.counter.status, 'inactive')
+        self.assertFalse(self.counter.active)
 
         # invalid removal
         result = self.counter.remove()
         self.assertTrue(result['error'])
         self.assertEqual(result['error_message'], 'Counter #1 is already inactive')
-        self.assertEqual(self.counter.status, 'inactive')
+        self.assertFalse(self.counter.active)
 
     def test_assign_employee(self):
         result = self.counter.details()

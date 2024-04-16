@@ -14,7 +14,7 @@ class TestShelf(unittest.TestCase):
     def validate_initial_details(self, result: dict):
         self.assertIsNotNone(result['id'])
         self.assertEqual(result['name'], 'Shelf #1')
-        self.assertEqual(result['status'], 'active')
+        self.assertTrue(result['active'])
         self.assertEqual(result['size'], 'small')
         self.assertEqual(result['slots'], 4)
         self.assertEqual(len(result['items']), 0)
@@ -58,7 +58,7 @@ class TestShelf(unittest.TestCase):
         self.assertEqual(result['items'][0]['name'], 'pudding')
         self.assertEqual(result['items'][0]['count'], 20)
         self.assertEqual(result['items'][0]['price'], 1.99)
-        self.assertEqual(result['items'][0]['counter'], False)
+        self.assertFalse(result['items'][0]['counter'])
 
     def test_remove(self):
         result = self.shelf.details()
@@ -68,13 +68,13 @@ class TestShelf(unittest.TestCase):
         result = self.shelf.remove()
         self.assertFalse(result['error'])
         self.assertIsNone(result['error_message'])
-        self.assertEqual(self.shelf.status, 'inactive')
+        self.assertFalse(self.shelf.active)
 
         # invalid removal
         result = self.shelf.remove()
         self.assertTrue(result['error'])
         self.assertEqual(result['error_message'], 'Shelf #1 is already inactive')
-        self.assertEqual(self.shelf.status, 'inactive')
+        self.assertFalse(self.shelf.active)
 
 
 if __name__ == '__main__':
