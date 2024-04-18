@@ -2,6 +2,7 @@ import uuid
 
 
 class Item:
+    profit = 0.05
 
     def __init__(self, name: str, count: int, price: float, counter: bool):
         self.id = str(uuid.uuid4())
