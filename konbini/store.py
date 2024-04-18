@@ -76,25 +76,29 @@ class Store:
             'error_message': None
         }
 
-    def add_item_shelf(self, shelf: Shelf, item: Item) -> dict:
+    def is_item_valid(self, display: any, item: Item) -> bool:
+        if (item.counter and type(display).__name__ == 'Shelf') or (not item.counter and type(display).__name__ == 'Counter'):
+            return False
+
+    def add_item(self, display: any, item: Item) -> dict:
         """
-        Adds an item to a shelf.
+        Adds an item to a display.
         """
 
-        if item.counter:
+        if self.is_item_valid(display, item) is False:
             return {
                 'error': True,
-                'error_message': f'{item.name} is not a type of item that can be added to {shelf.name}'
+                'error_message': f'{item.name} is not a type of item that can be added to {display.name}'
             }
 
-        if shelf.slots == 0:
+        if display.slots == 0:
             return {
                 'error': True,
-                'error_message': f'Item cannot be added to {shelf.name}, all slots are taken'
+                'error_message': f'Item cannot be added to {display.name}, all slots are taken'
             }
 
-        shelf.items.append(item)
-        shelf.slots -= 1
+        display.items.append(item)
+        display.slots -= 1
         self.money -= item.count * item.price
 
         return {
@@ -102,14 +106,20 @@ class Store:
             'error_message': None
         }
 
-    def replace_item_shelf(self, shelf: Shelf, current_item: Item, new_item: Item) -> dict:
+    def replace_item(self, display: any, current_item: Item, new_item: Item) -> dict:
         """
-        Replaces an item in a shelf.
+        Replaces an item in a display.
         """
 
-        for n, item in enumerate(shelf.items):
+        if self.is_item_valid(display, new_item) is False:
+            return {
+                'error': True,
+                'error_message': f'{new_item.name} is not a type of item that can be added to {display.name}'
+            }
+
+        for n, item in enumerate(display.items):
             if item == current_item:
-                shelf.items[n] = new_item
+                display.items[n] = new_item
                 self.money -= new_item.count * new_item.price
                 return {
                     'error': False,
@@ -120,83 +130,20 @@ class Store:
             'error_message': f'Item \'{current_item.name}\' does not exist'
         }
 
-    def remove_item_shelf(self, shelf: Shelf, item: Item) -> dict:
+    def remove_item(self, display: any, item: Item) -> dict:
         """
-        Removes an item from a shelf.
+        Removes an item from a display.
         """
 
         try:
-            shelf.items.remove(item)
+            display.items.remove(item)
         except ValueError:
             return {
                 'error': True,
                 'error_message': f'Item \'{item.name}\' does not exist'
             }
 
-        shelf.slots += 1
-        return {
-            'error': False,
-            'error_message': None
-        }
-
-    def add_item_counter(self, counter: Counter, item: Item) -> dict:
-        """
-        Adds an item to a counter.
-        """
-
-        if not item.counter:
-            return {
-                'error': True,
-                'error_message': f'{item.name} is not a type of item that can be added to {counter.name}'
-            }
-
-        if counter.slots == 0:
-            return {
-                'error': True,
-                'error_message': f'Item cannot be added to {counter.name}, all slots are taken'
-            }
-
-        counter.items.append(item)
-        counter.slots -= 1
-        self.money -= item.count * item.price
-
-        return {
-            'error': False,
-            'error_message': None
-        }
-
-    def replace_item_counter(self, counter: Counter, current_item: Item, new_item: Item) -> dict:
-        """
-        Replaces an item in a counter.
-        """
-
-        for n, item in enumerate(counter.items):
-            if item == current_item:
-                counter.items[n] = new_item
-                self.money -= new_item.count * new_item.price
-                return {
-                    'error': False,
-                    'error_message': None
-                }
-        return {
-            'error': True,
-            'error_message': f'Item \'{current_item.name}\' does not exist'
-        }
-
-    def remove_item_counter(self, counter: Counter, item: Item) -> dict:
-        """
-        Removes an item from a counter.
-        """
-
-        try:
-            counter.items.remove(item)
-        except ValueError:
-            return {
-                'error': True,
-                'error_message': f'Item \'{item.name}\' does not exist'
-            }
-
-        counter.slots += 1
+        display.slots += 1
         return {
             'error': False,
             'error_message': None
