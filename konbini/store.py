@@ -148,3 +148,28 @@ class Store:
             'error': False,
             'error_message': None
         }
+
+    def sell_item(self, display: any, item: Item, count: int) -> dict:
+        """
+        Sells an item in a display.
+        """
+
+        if count > item.count:
+            return {
+                'error': True,
+                'error_message': f'Cannot sell {count} amount of items, remaining stock is {item.count}'
+            }
+
+        for n, display_item in enumerate(display.items):
+            if display_item == item:
+                item -= count
+                self.money += item.retail_price * count
+                return {
+                    'error': False,
+                    'error_message': None
+                }
+
+        return {
+            'error': True,
+            'error_message': f'Item \'{item.name}\' does not exist in \'{display.name}\''
+        }

@@ -9,6 +9,7 @@ class Item:
         self.name = name
         self.count = count
         self.price = price
+        self.retail_price = price + (price * Item.profit)
         self.counter = counter
         self.min_restock = 20
 
@@ -22,6 +23,7 @@ class Item:
             'name': self.name,
             'count': self.count,
             'price': self.price,
+            'retail_price': self.retail_price,
             'counter': self.counter
         }
 

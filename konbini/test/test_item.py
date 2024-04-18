@@ -15,6 +15,7 @@ class TestItem(unittest.TestCase):
         self.assertEqual(result['name'], 'pudding')
         self.assertEqual(result['count'], 20)
         self.assertEqual(result['price'], 1.99)
+        self.assertEqual(result['retail_price'], 1.99 * 1.05)
         self.assertFalse(result['counter'])
 
     def test_new_item(self):
