@@ -2,12 +2,14 @@ import uuid
 
 
 class Item:
+    profit = 0.05
 
     def __init__(self, name: str, count: int, price: float, counter: bool):
         self.id = str(uuid.uuid4())
         self.name = name
         self.count = count
         self.price = price
+        self.retail_price = price + (price * Item.profit)
         self.counter = counter
         self.min_restock = 20
 
@@ -21,6 +23,7 @@ class Item:
             'name': self.name,
             'count': self.count,
             'price': self.price,
+            'retail_price': self.retail_price,
             'counter': self.counter
         }
 
