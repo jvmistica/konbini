@@ -274,6 +274,58 @@ class TestStore(unittest.TestCase):
         self.assertEqual(self.store.displays[2].items[0].count, 50)
         self.assertAlmostEqual(self.store.money, Store.capital - cost)
 
+    def test_sell_item_shelf(self):
+        shelf = Shelf('Shelf #1', 'small')
+        result = self.store.add_shelf(shelf)
+        self.validate_no_error(result)
+
+        item = Item('ramen', 20, 1.99, False)
+        cost = shelf.cost + (item.count * item.price)
+        result = self.store.add_item(shelf, item)
+        self.validate_no_error(result)
+
+        # valid
+        result = self.store.sell_item(shelf, item, 2)
+        self.assertFalse(result['error'])
+        self.assertIsNone(result['error_message'])
+
+        # invalid count
+        result = self.store.sell_item(shelf, item, 25)
+        self.assertTrue(result['error'])
+        self.assertEqual(result['error_message'], 'Cannot sell 25 amount of items, remaining stock is 18')
+
+        # invalid item
+        new_item = Item('candy', 20, 1.50, False)
+        result = self.store.sell_item(shelf, new_item, 2)
+        self.assertTrue(result['error'])
+        self.assertEqual(result['error_message'], 'Item \'candy\' does not exist in \'Shelf #1\'')
+
+    def test_sell_item_counter(self):
+        counter = Counter('Counter #1')
+        result = self.store.add_counter(counter)
+        self.validate_no_error(result)
+
+        item = Item('kariman', 20, 1.99, True)
+        cost = counter.cost + (item.count * item.price)
+        result = self.store.add_item(counter, item)
+        self.validate_no_error(result)
+
+        # valid
+        result = self.store.sell_item(counter, item, 2)
+        self.assertFalse(result['error'])
+        self.assertIsNone(result['error_message'])
+
+        # invalid count
+        result = self.store.sell_item(counter, item, 25)
+        self.assertTrue(result['error'])
+        self.assertEqual(result['error_message'], 'Cannot sell 25 amount of items, remaining stock is 18')
+
+        # invalid item
+        new_item = Item('siopao', 20, 1.50, True)
+        result = self.store.sell_item(counter, new_item, 2)
+        self.assertTrue(result['error'])
+        self.assertEqual(result['error_message'], 'Item \'siopao\' does not exist in \'Counter #1\'')
+
 
 if __name__ == '__main__':
     unittest.main()

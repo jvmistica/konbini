@@ -162,7 +162,7 @@ class Store:
 
         for n, display_item in enumerate(display.items):
             if display_item == item:
-                item -= count
+                item.count -= count
                 self.money += item.retail_price * count
                 return {
                     'error': False,
